@@ -11,3 +11,7 @@ for dir in ${dirs[@]};do
     fi
 done
 ln -s mfeprimer/chilli .
+cd mfeprimer/test/
+../IndexDb.sh db.fasta 9
+cd ../../MFEprimerDB/
+ln -s ../mfeprimer/test/db.fasta* .
