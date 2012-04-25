@@ -10,3 +10,4 @@ for dir in ${dirs[@]};do
 	echo $dir 'created.';
     fi
 done
+ln -s mfeprimer/chilli .
