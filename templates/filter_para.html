@@ -1,0 +1,35 @@
+<div class="section">
+    <table>
+	<tr>
+	    <td colspan="4" class="subheader"><a href="http://code.google.com/p/mfeprimer/wiki/FAQ#What_is_the_purpose_of_Results_filter_settings_?">Results filter settings</a> [optional]:</td>
+	</tr>
+	<tr>
+	    <td class="filter_label">
+		<label>Tm (&deg;C): </label>
+	    </td>
+	    <td class="filter_para">
+		From: <input class="filter_input" type="text" name="Tm_lower_limit" value="{{session.tm_start|default(30)}}">
+		To: <input class="filter_input" type="text" name="Tm_upper_limit" value="{{session.tm_stop|default(80)}}">
+	    </td>
+	    <td class="filter_label">
+		<label><a href="http://code.google.com/p/mfeprimer/wiki/FAQ#What_is_PPC_and_what_is_PPC_cutoff?">PPC</a> (%): </label>
+	    </td>
+	    <td class="filter_para">
+		From: <input style="width:116px" type="text" name="ppc_lower_limit" value="{{session.ppc|default(30)}}">
+	    </td>
+	</tr>
+	<tr>
+	    <td class="filter_label">
+		<label>Size (bp): </label>
+	    </td>
+	    <td class="filter_para">
+		From: <input class="filter_input" type="text" name="size_lower_limit" value="{{session.size_start|default(50)}}">
+		To: <input class="filter_input" type="text" name="size_upper_limit" value="{{session.size_stop|default(2000)}}">
+	    </td>
+	    <td>
+	    </td>
+	    <td>
+	    </td>
+	</tr>
+    </table>
+</div>

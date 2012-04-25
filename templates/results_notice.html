@@ -1,0 +1,37 @@
+{% extends "primer_output.html" %}
+
+{% block body %}
+
+	<form name="result_form" method="post" action="{{url_for('refresh')}}" enctype="multipart/form-data">
+	    <input type="hidden" value={{session_key}} name="session_key" />
+	    <input type="hidden" value={{job_file}} name="job_file" />
+
+	    <div class="status_div">
+		<h4>MFEprimer-2.0 batch mode</h4>
+		<p>Job Status: <label class="subheader">{{status}}</label>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		{% if status == 'Finished': %}
+		<a href="{{url_for('download', session_key=session_key, filename=job_file)}}">Download</a>
+		{% endif %}
+		</p>
+		<br>
+		<p>
+		{% if status == 'Finished': %}
+		<input type="button" name="return" value="Return Home" onclick="return_home();"/>
+		{% else:  %}
+		<input type="submit" name="refresh" value="Refresh Status" />
+		{% endif %}
+		</p>
+		<hr>
+		<p>
+                <b>Note:</b> Untar first, and please use <a href="http://notepad-plus-plus.org/" target="_blank">Notepad++</a> to open the txt file.<br />
+		</p>
+		<p>
+		The download link will be available within 24 hours.<br />
+		<b>Contact:</b> <a href="mailto:quwubin@gmail.com">Wubin Qu</a> for questions and comments.
+		</p>
+	</div>
+	</form>
+	<a style="display:none;" rel="nofollow" href="#header" id="go-to-top">▲</a>
+
+{% endblock %}

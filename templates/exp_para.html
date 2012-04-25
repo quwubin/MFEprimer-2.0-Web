@@ -1,0 +1,35 @@
+<div class="section">
+    <table>
+	<tr>
+	    <td colspan="4" class="subheader"><a href="http://code.google.com/p/mfeprimer/wiki/FAQ#What%27s_the_purpose_of_Experimental_settings_?">Experimental settings</a> [optional]:</td>
+	</tr>
+	<tr>
+	    <td class="exp_label">
+		<label class="small_font">Concentration of monovalent cations<br /> (usually KCl, mM): </label>
+	    </td>
+	    <td class="exp_para">
+		<input class="exp_input" type="text" name="mono_conc" value="{{session.mv|default(50.0)}}">
+	    </td>
+	    <td class="exp_label">
+		<label class="small_font">Concentration of dNTPs (mM): </label>
+	    </td>
+	    <td class="exp_para">
+		<input class="exp_input" type="text" name="dntp_conc" value="{{session.dntp|default(0.25)}}">
+	    </td>
+	</tr>
+	<tr>
+	    <td class="exp_label">
+		<label class="small_font">Concentration of divalent cations<br /> (usually MgCl<sub>2</sub>, mM): </label>
+	    </td>
+	    <td class="exp_para">
+		<input class="exp_input" type="text" name="diva_conc" value="{{session.dv|default(1.5)}}">
+	    </td>
+	    <td class="exp_label">
+		<label class="small_font">Annealing oligo concentration (nM): </label>
+	    </td>
+	    <td class="exp_para">
+		<input class="exp_input" type="text" name="oligo_conc" value="{{session.oligo|default(50.0)}}">
+	    </td>
+	</tr>
+    </table>
+</div>

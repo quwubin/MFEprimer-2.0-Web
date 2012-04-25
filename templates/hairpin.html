@@ -1,0 +1,17 @@
+<h2 class="sub_cmd">Possible Hairpins</h2>
+<table border="1" class="dimer_table">
+    <tr>
+        <th class="align_center">ID</td>
+        <th class="align_center">Tm (&deg;C)</td>
+        <th class="align_center">&Delta;G (kcal/mol)</td>
+        <th class="align_center">Hairpin</td>
+    </tr>
+    {% for id_i, seq_i, tm, delta_g, align in hairpin_list %}
+    <tr>
+        <td class="align_center">{{id_i}}</td>
+        <td class="align_center">{{'%.2f' % tm}}</td>
+        <td class="align_center">{{'%.2f' % delta_g}}</td>
+	<td class="show_align">{{align|safe}}</td>
+    </tr>
+    {% endfor %}
+</table>

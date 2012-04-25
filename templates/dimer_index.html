@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<p class="sub_title"><b>DimerChecker</b>: Check the possible primer dimers and hairpins</p>
+
+<form name="main_form" method="post" action="{{url_for('check_dimer')}}" enctype="multipart/form-data">
+<div class="section">
+    <table style="DISPLAY:true" id="multi_seq">
+	<tr> 
+	    <td class="align_left">
+		<label class="subheader">Enter multiple primers in <a href="http://code.google.com/p/mfeprimer/wiki/FASTA_Format" target="_blank">Fasta format</a>:</label>
+	    </td>
+	    <td class="align_right">
+		<a href="javaScript:fillFastaSeq()">Example input sequences</a>
+	    </td> 
+	</tr> 
+	<tr>
+	    <td colspan="2">
+		<table >
+		    <tr> 
+			<td colspan="2">
+			    <textarea rows="12" placeholder="The length of each should be in [2, 36] bp" id="fasta_seq" name="fasta_seq" style="width: 100%;"></textarea>
+			</td>
+		    </tr>
+		    <tr> 
+			<td class="align_left">
+			    <label>Or upload: </label><input id="upload_seq" name="upload_seq" type="file" onchange="upload_seq_changed();"> 
+			</td>
+			<td class="align_right">
+			    Dimer Type: 
+			    <select name="mode">
+			    <option value='END1'>END1</option>
+			    <option value='END2'>END2</option>
+			    <option selected value='ANY'>ANY</option>
+			    <option value='HAIRPIN'>HAIRPIN</option>
+			    </select>
+			    &nbsp;&nbsp;
+			    <input class="submit_button" value="Run" name="submit" id="submit" type="submit" /> 
+			    <input class="reset_button" value="Reset" name="reset" id="reset" type="reset" /> 
+			</td> 
+		    </tr>
+		</table>
+	    </td>
+	</tr>
+    </table>
+</div>
+{% include 'exp_para.html' %}
+</form>
+{% endblock %}
+

@@ -1,0 +1,5 @@
+Installation instruction
+
+1. Download the correct version of the latest packages: 32-bit or 64-bit.
+2. Untar the *.7z packages;
+4. That's all. Try it.

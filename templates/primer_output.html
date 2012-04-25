@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+	<title>MFEprimer-2.0 Evaluation Results Report</title>
+	<link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet" type="text/css">
+	<script type="text/JavaScript" src="{{ url_for('static', filename='function.js') }}"></script>
+	<script type="text/JavaScript" src="{{ url_for('static', filename='jquery-1.6.1.min.js') }}"></script>
+
+	<script type="text/javascript"> 
+	    $(function(){
+		    $("#go-to-top").click(function(){
+			$("html, body").animate({'scrollTop': 0}, 400);
+			return false;
+			});
+		    $(window).scroll(function() {
+			var top = $(document).scrollTop();
+			var g = $("#go-to-top");
+			if (top > 300 && g.is(":hidden")) {
+			g.fadeIn();
+			} else if(top < 300 && g.is(":visible")) {
+			g.fadeOut();
+			}
+			}); 
+		    })
+		</script>
+	
+    </head>
+
+    <body>
+        {% block body %}
+        <form id="output_form" name="output_form" method="post" target="_blank">
+            <table class="head_table">
+                <tr>
+                    <td class="header">MFEprimer-2.0 Report</td>
+                    <td class="right">
+			<a href="./">Home</a> | <a href="#query">Query</a> | 
+			{% if max_size_num > 0 %}
+			<a href="#histogram">Histogram</a> | 
+			{% endif %}
+			<a href="#descriptions">Descriptions</a> | 
+			<a href="#amplicons_details">Details</a> | <a href="#parameters">Parameters</a> | <a href="#citation">Citation</a>
+                    </td>
+                </tr>
+            </table>
+            <h2><a id="query">Query</a></h2>
+            <div>
+                <table class="list_table">
+                    <thead>
+                        <tr>
+                            <th>Query ID</th>
+                            <th class="left">Sequence (5' &#8212;&#62; 3')</th>
+                            <th>Length</th>
+                            <th>GC%</th>
+                            <th>Tm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+			{% for id, seq, size, gc, tm in oligos: %}
+                        <tr>
+			    <td class="center">{{id}}</td>
+			    <td class="left">&nbsp;&nbsp;{{seq}}</td>
+			    <td class="center">{{size}}</td>
+			    <td class="center">{{gc}}</td>
+			    <td class="center">{{tm}}</td>
+                        </tr>
+			{% endfor %}
+                    </tbody>
+                </table>
+		<input type="hidden" name="infile" value="{{options.infile.name}}" >
+		<input type="hidden" name="mv" value="{{options.mv}}" >
+		<input type="hidden" name="dv" value="{{options.dv}}" >
+		<input type="hidden" name="dntp" value="{{options.dntp}}" >
+		<input type="hidden" name="oligo" value="{{options.oligo}}" >
+		<p class="center">
+		<input type="button"  value="View Hairpins &amp; Dimers" onclick="view_dimer();" />
+		</p>
+            </div>
+	    {% if max_size_num > 0 %}
+	    <h2><a id="histogram"></a>Histogram of size, Tm and &Delta;G of <label class="red">{{amp_num}}</label> potential amplicons</h2>
+	    <div>
+		<canvas id="size_canvas" width="320" height="200" style="border:1px solid #c3c3c3;">
+		Your browser does not support the canvas element, please use IE (&ge;9), Firefox, Opera, Safari or Google Chrome brower.
+		</canvas>
+		<canvas id="tm_canvas" width="320" height="200" style="border:1px solid #c3c3c3;">
+		</canvas>
+		<canvas id="dg_canvas" width="320" height="200" style="border:1px solid #c3c3c3;">
+		</canvas>
+		<script type="text/javascript">
+		    var c = document.getElementById("size_canvas");
+		    draw_hist(c, {{max_size_num}}, {{size_hist}}, 'Size (bp)', true, 'Number of amplicons');
+
+		    var c = document.getElementById("tm_canvas");
+		    draw_hist(c, {{max_tm_num}}, {{tm_hist}}, "Tm (°C)",  true, 'Number of binding primers');
+
+		    var c = document.getElementById("dg_canvas");
+		    draw_hist(c, {{max_dg_num}}, {{dg_hist|safe}}, "ΔG (kcal/mol)",  false, 'Number of binding primers');
+
+		    function draw_hist(c, max_num, hist, title, reverse, vertical_title){
+			var keys = new Array();
+			for (var key in hist){
+			    keys.push(key);
+			}
+
+			if (reverse == true){
+			    keys = keys.sort(function(a, b){return a - b });
+			}else{
+			    keys = keys.sort(function(a, b){return b - a });
+			}
+
+			var cxt = c.getContext("2d");
+			var edge_offset = 50;
+			var grid_width = (c.width - 1.5*edge_offset) / keys.length;
+			var grid_height = (c.height - 1.5*edge_offset) / max_num;
+
+			// Bottom horizontal line
+			cxt.lineWidth = 1;
+			cxt.moveTo(edge_offset, c.height - edge_offset);
+			cxt.lineTo(c.width - 0.5 * edge_offset, c.height - edge_offset);
+
+			// Left vertical line
+			cxt.moveTo(edge_offset, c.height - edge_offset);
+			cxt.lineTo(edge_offset, 0.5 * edge_offset);
+			var ave_num = max_num / 5;
+
+			cxt.textAlign="right";
+			var i = 0;
+			for (i=0; i<=5; i++){
+			    var num = ave_num * i;
+			    var height = c.height - edge_offset - num * grid_height;
+			    cxt.moveTo(edge_offset, height);
+			    cxt.lineTo(edge_offset - 5, height);
+			    cxt.fillText(Math.round(num), edge_offset - 8, height+4);
+			}
+			cxt.stroke();
+
+
+			cxt.textAlign="center";
+
+
+			var loop_index = 0;
+			for (loop_index=0; loop_index < keys.length; loop_index++) {
+			    var key = keys[loop_index];
+			    var num = hist[key];
+			    var rect_height = num * grid_height;
+			    var rect_width = 0.4 * grid_width;
+			    var x = edge_offset + loop_index * grid_width + 0.3 * grid_width;
+			    var y = c.height - edge_offset - rect_height;
+			    cxt.fillRect(x, y, rect_width, rect_height);
+
+			    var coord_x = edge_offset + loop_index * grid_width;
+			    var coord_y0 = c.height - edge_offset;
+			    var coord_y1 = coord_y0 + 5;
+			    cxt.moveTo(coord_x, coord_y0);
+			    cxt.lineTo(coord_x, coord_y1);
+
+			    cxt.fillText(key, coord_x, coord_y1 + 10);
+			}
+
+			cxt.fillText(title, 0.5 * c.width, coord_y1 + 28);
+			cxt.stroke();
+			cxt.save();
+			cxt.translate(0, 0);
+			cxt.rotate(-Math.PI/2);
+			cxt.fillText(vertical_title, -0.5 * c.height, edge_offset-30);
+			cxt.restore();
+			cxt.stroke();
+		    }
+		</script>
+	    </div>
+	    {% endif %}
+	    <h2><a id="descriptions"></a>Descriptions of <label class="red">{{amp_num}}</label> potential amplicons</h2>
+            <div>
+	    <p class="right"><a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/FAQ#What’s_the_MFEprimer-2.0_result_and_what’s_the_meaning_of_ea">What's this?</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/HowTo">How to explain the result?</a></p>
+                <table class="list_table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="center"></th>
+                            <th rowspan="2" class="center">ID</th>
+                            <th rowspan="2" class="center">Accession</th>
+                            <th rowspan="2" class="center">Fp x Rp</th>
+                            <th class="center">Size</th>
+                            <th class="center">PPC</th>
+                            <th class="center">Fp Tm</th>
+                            <th class="center">Rp Tm</th>
+                            <th class="center">Fp &Delta;G</th>
+                            <th class="center">Rp &Delta;G</th>
+                            <th class="center">Fp 3' &Delta;G</th>
+                            <th class="center">Rp 3' &Delta;G</th>
+                        </tr>
+                        <tr>
+                            <th class="center">(bp)</th>
+                            <th class="center">(%)</th>
+                            <th class="center">(&deg;C)</th>
+                            <th class="center">(&deg;C)</th>
+                            <th class="center">(kcal/mol)</th>
+                            <th class="center">(kcal/mol)</th>
+                            <th class="center">(kcal/mol)</th>
+                            <th class="center">(kcal/mol)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+			{% for sn, acc, p_qid, m_qid, amp_len, ppc, p_Tm, m_Tm, p_DeltaG, m_DeltaG, p_3_DeltaG, m_3_DeltaG, amp_GC, p_sb, p_match, f_len, m_se, m_match, r_len, amp_graphic, fa_seq, hid, hdesc in detail: %}
+                        <tr>
+			    <td class="center">&nbsp;<input type="checkbox" name="Amplicon_desc_name_{{sn}}" id="Amplicon_desc_{{sn}}" onclick="desc2detail_AssociationCheck({{sn}});" /></td>
+			    <td class="center"><a href="#{{sn}}">{{sn}}</a></td>
+			    <td class="left">{{acc}}</td>
+			    <td class="center">{{p_qid[:12]}} x {{m_qid[:12]}}</td>
+			    <td class="center">{{amp_len}}</td>
+			    <td class="center">{{ppc}}</td>
+			    <td class="center">{{p_Tm}}</td>
+			    <td class="center">{{m_Tm}}</td>
+			    <td class="center">{{p_DeltaG}}</td>
+			    <td class="center">{{m_DeltaG}}</td>
+			    <td class="center">{{p_3_DeltaG}}</td>
+			    <td class="center">{{m_3_DeltaG}}</td>
+                        </tr>
+			{% endfor %}
+                    </tbody>
+                </table>
+                <table class="header_table">
+                    <tbody>
+                        <tr>
+			    <td class="select_cmd" >&nbsp;&nbsp;&nbsp;<input type="checkbox" name="check_all_name" id="check_all_id" onclick="check_all({{amp_num}});" /><label>Select All</label></td>
+			    <td class="cmd_line">
+				 <input type="button" name="export_amplicon_name" id="export_amplicn_id" value="ExportAmplicon" onclick="export_amplicon({{amp_num}});" />
+				 {% if amp_num > 1: %}
+				 <input type="button" name="multi_align_name" id="multi_align_id" value="MultiAlign" onclick="multi_align({{amp_num}});" />
+				 <input type="button" name="clust_align_name" id="clust_align_id" value="Cluster & MultiAlign" onclick="clust_align({{amp_num}});" />
+				 <input type="button" name="ve" id="ve" value="Virtual Electrophoresis" onclick="virtual_e({{amp_num}});" />
+                                 {% endif %}
+                                <input type="reset" name="reset" id="reset_id" value="Reset" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2><a id="amplicons_details">Amplicon details</a></h2>
+            <div>
+	    <p class="right"><a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/FAQ#What’s_the_MFEprimer-2.0_result_and_what’s_the_meaning_of_ea">What's this?</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/HowTo">How to explain the result?</a></p>
+	    {% for sn, acc, p_qid, m_qid, amp_len, ppc, p_Tm, m_Tm, p_DeltaG, m_DeltaG, p_3_DeltaG, m_3_DeltaG, amp_GC, p_sb, p_match, f_len, m_se, m_match, r_len, amp_graphic, fa_seq, hid, hdesc in detail: %}
+		<p><label><input type="checkbox" value="{{fa_seq}}" name="Amplicon_detail_name_{{sn}}" id="Amplicon_detail_{{sn}}" onclick="detail2desc_AssociationCheck({{sn}});" /><a id="{{sn}}">{{sn}}</a>: {{p_qid[:12]}} + {{m_qid[:12]}} ==> {{hid}} {{hdesc}}</label></p>
+                    <div class="detail">
+                        <p class="indent">
+			PPC = {{ppc}}%, Size = {{amp_len}} (bp), GC content = {{amp_GC}}% <br />
+			Fp: Tm = {{p_Tm}} (&deg;C), &Delta;G = {{p_DeltaG}} (kcal/mol), 3'&Delta;G = {{p_3_DeltaG}} (kcal/mol)<br />
+			Rp: Tm = {{m_Tm}} (&deg;C), &Delta;G = {{m_DeltaG}} (kcal/mol), 3'&Delta;G = {{m_3_DeltaG}} (kcal/mol)<br />
+			Binding sites: {{p_sb}}({{p_match}}/{{f_len}}) ... {{m_se}}({{m_match}}/{{r_len}})<br />
+                        </p>
+			<p><pre>{{amp_graphic}}</pre></p>
+			<p><pre>{{fa_seq}}</pre></p>
+                   </div>
+		   {% endfor %}
+            </div>
+
+            <h2><a id="parameters">Parameters</a></h2>
+            <div>
+                <table class="list_table">
+                    <tbody>
+                        <tr>
+			    <td class="left"><label>Database: </label>{{database}}</td>
+			    <td class="left"><label>K value: </label>{{options.k_value}}</td>
+                        </tr>
+                        <tr>
+			    <td class="left"><label>Degenerate sequence: </label>{{options.degenerate|capitalize}}</td>
+			    <td class="left"><label>PPC cutoff: </label>{{options.ppc}} (%)</td>
+                        </tr>
+                        <tr>
+			    <td class="left"><label>Size start: </label>{{options.size_start}} (bp)</td>
+			    <td class="left"><label>Size stop: </label>{{options.size_stop}} (bp)</td>
+                        </tr>
+                        <tr>
+			    <td class="left"><label>Tm start: </label>{{options.tm_start}} (&deg;C)</td>
+			    <td class="left"><label>Tm stop: </label>{{options.tm_stop}} (&deg;C)</td>
+                        </tr>
+                        <tr>
+			    <td class="left"><label>Concentration of monovalent cations: </label>{{options.mono_conc}} (mM)</td>
+			    <td class="left"><label>Concentration of divalent cations: </label>{{options.diva_conc}} (mM)</td>
+                        </tr>
+                        <tr>
+			    <td class="left"><label>Concentration of annealing oligos: </label>{{options.oligo_conc}} (nM)</td>
+			    <td class="left"><label>Concentration of dNTPs: </label>{{options.dntp_conc}} (mM)</td>
+                        </tr>
+                        <tr>
+			    <td class="left"><label>Time used: </label>{{time_used}}</td>
+			    <td class="left"><label>Date: </label>{{date}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2><a id="citation">Citation</a></h2>
+            <div>
+		<label>{{citation}}</label>
+            </div>
+	    <input type="hidden" name="amp_num" id="hidden_amp_num" value={{amp_num}}:{{session_dir}} />
+
+        </form>
+    <a style="display:none;" rel="nofollow" href="#header" id="go-to-top">▲</a>
+    {% endblock %}
+    </body>
+</html>

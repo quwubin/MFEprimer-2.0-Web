@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<p class="sub_title"><b>Virtual Eletrophoresis</b>: simulating electrophoresis on agarose gel</p>
+
+<form name="main_form" method="post" action="{{url_for('virtual_electrophoresis')}}" enctype="multipart/form-data">
+<div class="section">
+    <table style="DISPLAY:true">
+	<tr> 
+	    <td class="align_left">
+		<label class="subheader">Enter size list (separated by ","):</label>
+	    </td>
+	    <td class="align_right">
+		<a href="javaScript:fill_size_list()">Example input size list</a>
+	    </td> 
+	</tr> 
+	<tr>
+	    <td colspan="2">
+		<input type="text" id="size_list_id" name="size_list" style="width: 80%; margin-left: 10px;">
+	    </td>
+	</tr>
+	<tr>
+	    <td colspan="2" class="align_right">
+		<input class="submit_button" value="Run" name="submit" id="submit" type="submit"/> 
+		<input class="reset_button" value="Reset" name="reset" id="reset" type="reset" /> 
+	    </td> 
+	</tr>
+    </table>
+</div>
+<div class="section">
+    <table style="DISPLAY:true">
+	<tr> 
+	    <td class="align_left">
+		<label class="subheader">Choose gel concentration:</label>
+	    </td>
+	</tr> 
+	<tr>
+	    <td class="align_center">
+		<input name="gel_conc" type="radio" value="0.5">0.5%
+		<input name="gel_conc" type="radio" value="1.0" checked="checked">1%
+		<input name="gel_conc" type="radio" value="1.5">1.5%
+		<input name="gel_conc" type="radio" value="2.0">2.0%
+	    </td>
+	</tr>
+    </table>
+</div>
+</form>
+{% endblock %}
+

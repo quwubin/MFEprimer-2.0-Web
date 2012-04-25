@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<form name="main_form" method="post" action="{{url_for('single_mode')}}">
+<div class="section">
+    <table>
+	<tr>
+	    <td ><label class="subheader"><a href="http://code.google.com/p/mfeprimer/wiki/FAQ#How_to_choose_the_database?">Database selection</a>:</label> (<a href="{{url_for('batch')}}">Multiple database selection</a>)</td>
+	</tr>
+	<tr>
+	    <td>&nbsp;&nbsp;
+		<select name="db_selected" style="width: 500px;" onchange="db_selected_changed();">
+		{% for species, db_list in g.db_list %}
+		    {% for each_db in db_list %}
+			{% if session.has_key('db_selected') %}
+			    {% if session.db_selected == each_db.name %}
+				<option selected="selected" value="{{each_db.name}}">{{species|capitalize_species_name|safe}} - {{each_db.type}}</option>
+			    {% else %}
+				<option value="{{each_db.name}}">{{species|capitalize_species_name|safe}} - {{each_db.type}}</option>
+			    {% endif %}
+			{% else %}
+			    {% if loop.first %}
+				<option selected="selected" value="{{each_db.name}}">{{species|capitalize_species_name|safe}} - {{each_db.type}}</option>
+			    {% else %}
+				<option value="{{each_db.name}}">{{species|capitalize_species_name|safe}} - {{each_db.type}}</option>
+			    {% endif %}
+			{% endif %}
+		    {% endfor %}
+		    {% if db_list|length > 1 %}
+			{% if session.has_key('db_selected') %}
+			    {% if session.db_selected == db_list|join(':', attribute='name')%}
+				<option selected="selected" value="{{db_list|join(':', attribute='name')}}">{{species|capitalize_species_name|safe}} - {{db_list|join(' & ', attribute='type')}}</option>
+			    {% else %}
+				<option value="{{db_list|join(':', attribute='name')}}">{{species|capitalize_species_name|safe}} - {{db_list|join(' & ', attribute='type')}}</option>
+			    {% endif %}
+			{% else %}
+				<option value="{{db_list|join(':', attribute='name')}}">{{species|capitalize_species_name|safe}} - {{db_list|join(' & ', attribute='type')}}</option>
+			{% endif %}
+		    {% endif %}
+		{% endfor %}
+		</select>
+	    </td>
+	</tr>
+    </table>
+</div>
+<div class="section">
+<table id="parent_input_table"> 
+<tbody>
+    <tr>
+	<td> 
+	    <label class="subheader">Enter the primer sequences (5' &#8212;&#62; 3'):</label>
+	    (<a href="{{url_for('batch')}}">Batch primer sequences</a>)
+	</td>
+	<td class="align_right"><a href="javaScript:fillPrimer()">Example</a> <a href="javaScript:clear()">Clear</a></td> 
+    </tr>
+    <tr>
+	<td colspan="2">
+	    <table id="input_table"> 
+		<tbody>
+		    <tr>
+			<td>
+			    <label>Sequence 1:</label>
+			    <input class="seq_input" type="text" id="seq1_id" name="seq1">
+			</td>
+			<td class="clear">
+			    <a href="javaScript:clear_current(1)">Clear</a>
+			</td>
+		    </tr>
+		    <tr>
+			<td>
+			    <label>Sequence 2:</label>
+			    <input class="seq_input" type="text" id="seq2_id" name="seq2">
+			</td>
+			<td class="clear">
+			    <a href="javaScript:clear_current(2)">Clear</a>
+			</td>
+		    </tr>
+		</tbody>
+	    </table>
+	</td>
+    </tr>
+    <tr>
+	<td class="align_left">
+	    <input class="submit_button" value="Add +" name="add" type="button" onclick="add_row()"/> 
+	    <input class="submit_button" value="Del -" name="del" type="button" onclick="del_row()"/> 
+	</td> 
+	<td class="align_right">
+	    <input class="submit_button" value="Run" name="submit" id="submit" type="submit"/> 
+	    <input class="reset_button" value="Reset" name="reset" id="reset" type="reset" /> 
+	</td> 
+    </tr>
+</tbody>
+</table>
+</div>
+
+{% include 'filter_para.html' %}
+{% include 'exp_para.html' %}
+
+</form>
+{% endblock %}

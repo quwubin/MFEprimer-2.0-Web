@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+	<title>MFEprimer-2.0: a fast and thermodynamics-based PCR primer specificity checking program</title>
+	<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
+	<script src="{{ url_for('static', filename='function.js')}}" type="text/JavaScript"></script>
+	<link href="{{ url_for('static', filename='favicon.ico') }}" rel="Shortcut icon">
+	<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-4030556-21']);
+	    _gaq.push(['_trackPageview']);
+
+	    (function() {
+	     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	     })();
+
+	 </script>
+     </head>
+
+     <body>
+	 <div id="wrap">
+
+	     <!--header -->
+	     <div id="header">		
+
+		 <h1 id="logo-text"><a href="./">MFEprimer-2.0</a></h1>	
+		 <p id="slogan">A fast and thermodynamics-based PCR primer specificity checking program</p>	    
+
+		 <div id="header-links">
+		     <p>
+		     <a href="./">Single Mode</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		     <a href="{{url_for('batch')}}">Batch Mode </a> 
+		     <br />
+		     <a href="{{url_for('check_dimer')}}">Check Dimer</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		     <a href="{{url_for('virtual_electrophoresis')}}">Virtual Electrophoresis</a> 
+		     </p>
+		 </div>	    
+
+	     </div>
+
+	     <!-- content-wrap starts here -->
+	     <div id="content-wrap">
+		 <div id="main">		
+		 {% if error %} 
+		     <div class="section">
+		         <p class=error><strong>Error: </strong>{{ error|safe }} </p>
+		     </div>
+		 {% endif %}
+		 {% for message in get_flashed_messages() %}
+		     <div class="flash">
+			 {{message}}
+		     </div>
+	         {% endfor %} 
+		 
+                 {%block content %}{% endblock %}
+
+		 </div>
+
+		 <div id="sidebar">
+		     <p class="sidemenu">		
+		         Download
+		     </p>   
+		     <p class="sidemenu">		
+		         <a href="http://code.google.com/p/mfeprimer/wiki/FAQ" target="_blank">FAQ</a>
+		     </p>   
+		     <p class="sidemenu">		
+		         HowTo (<a href="http://www.dxy.cn/bbs/topic/21140529" target="_blank">中文</a>, <a href="http://code.google.com/p/mfeprimer/wiki/HowTo" target="_blank">English</a>)
+		     </p>   
+		     <p class="sidemenu">		
+		         <a href="http://code.google.com/p/mfeprimer/wiki/Thanks" target="_blank">Thanks</a>
+		     </p>   
+
+		     <h2>We also provide</h2>
+		     <ul class="sidemenu">		
+			 <li><a href="http://biocompute.bmi.ac.cn/CZlab/VizPrimer/"><strong>VizPrimer</strong></a>: <label class="description">A web server for visualized PCR primer design based on known gene structure</label></li>
+			 <li><a href="http://biocompute.bmi.ac.cn/MPprimer/"><strong>MPprimer</strong></a>: <label class="description">A program for reliable multiplex PCR primer design</label></li>
+			 <li><a href="http://biocompute.bmi.ac.cn/CelRNAi/"><strong>CelRNAi</strong></a>: <label class="description">Reliability analysis of the genome-wide <i>C. elegans</i> Ahringer RNAi feeding library</label></li>
+		     </ul>   
+
+
+		     <h2>Publication</h2>
+		     <ul class="sidemenu">
+			 <li> <p class="description"><a href="http://quwubin.googlecode.com/files/QuWB_2009_MFEprimer_Bioinformatics.pdf">Qu, W., Z. Shen, et al. (2009). "MFEprimer: multiple factor evaluation of the specificity of PCR primers." Bioinformatics 25(2): 276-8.</a></p></li>
+			 <li><a href="http://scholar.google.com/scholar?cites=6306721499472082928">Papers citing MFEprimer </a></li>
+		     </ul>   
+
+		     <h2>Contact us</h2>
+		     <ul class="sidemenu">		
+			 <li>Wubin Qu <label class="description">(<a href="mailto:quwubin@gmail.com">Email</a> / <a href="http://quwubin.sinaapp.com/">Homepage</a>)</label></li>
+			 <li><a href="mailto:zhangcg@bmi.ac.cn">Chenggang Zhang</a>
+			 </li>
+		     </ul>   
+
+		 </div>
+
+		 <!-- content-wrap ends here --> 
+	     </div>
+
+	     <!--footer starts here-->
+	     <div id="footer">
+		 <p>
+		 &copy; 2010-2011, 
+		 <a href="mailto:quwubin@gmail.com">Wubin Qu</a> &amp; <a href="mailto:zhangcg@bmi.ac.cn">Chenggang Zhang</a> 
+		 @ <a href="http://biocompute.bmi.ac.cn/CZlab/">CZlab</a> 
+		 | Last updated @ {{g.date}}
+		 </p>
+	     </div>
+	 </div>
+     </body>
+ </html>

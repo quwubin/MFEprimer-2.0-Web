@@ -1,0 +1,17 @@
+<h2 class="sub_cmd">Possible Dimers</h2>
+<table border="1" class="dimer_table">
+    <tr>
+        <th class="align_center">ID vs ID</td>
+        <th class="align_center">Tm (&deg;C)</td>
+        <th class="align_center">&Delta;G (kcal/mol)</td>
+        <th class="align_center">Dimer</td>
+    </tr>
+    {% for id_i, id_j, seq_i, seq_j, tm, delta_g, align in dimer_list %}
+    <tr>
+        <td class="align_center">{{id_i}} <br>vs.<br> {{id_j}}</td>
+        <td class="align_center">{{'%.2f' % tm}}</td>
+        <td class="align_center">{{'%.2f' % delta_g}}</td>
+        <td class="show_align">{{align|safe}}</td>
+    </tr>
+    {% endfor %}
+</table>

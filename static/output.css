@@ -1,0 +1,236 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #FFFFFF;
+        margin-left:1%;
+        margin-top:10px;
+        margin-right:1%;
+        margin-bottom:20px;
+	width:98%;
+	background-color: #EEF5F5;
+	/*background-color: #000000;*/
+}
+.left {
+	text-align: left;
+        vertical-align: middle;
+}
+.center {
+	text-align: center;
+        vertical-align: middle;
+}
+.right {
+	text-align: right;
+        vertical-align: middle;
+}
+.status_div {
+	width:800px;
+	margin:0 auto;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	padding-right:10px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+.head_table {
+        border:0px;
+        border-collapse: collapse;
+	width:1000px;
+	margin:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	padding-right:10px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+.list_table {
+	background-color: #EEF5F5;
+        border:0px;
+        border-collapse: collapse;
+	width:1000px;
+	margin:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	padding-right:10px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+.header {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 32px;
+	color: #006666;
+	font-weight:bold;
+        text-align:left;
+}
+.subheader {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #006666;
+	font-weight:bold;
+        text-align:left;
+}
+.cmd_line{
+    width: 800px;
+    text-align:center;
+}
+.select_cmd{
+    width: 200px;
+    text-align:left;
+}
+a:link {
+	color: #006666;
+}
+a:visited {
+	color: #006666;
+}
+a:hover {
+	color: #CC0033;
+}
+a:active {
+	color: #CC0033;
+}
+form {
+	margin: 0px;
+}
+
+div {
+	text-align:left;
+        width: 1000px;
+	background-color: #EEF5F5;
+        margin-left:20px;
+}
+.indent{
+	text-align:left;
+        margin-left:22px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+.detail{
+	text-align:left;
+        margin-left:35px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+.rank_record {
+	background-color: #EEF5F5;
+	width:100%;
+	margin:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	padding-right:10px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+.table_record_one_line {
+	background-color: #A9DCDC;
+        border: 10;
+	width:100%;
+	margin:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:10px;
+	margin-bottom:0px;
+	margin-top:00px;
+	margin-left:10px;
+}
+
+.table_record_head {
+	background-color: #A9DCDC;
+        border: 10px;
+	width:100%;
+	margin:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:10px;
+	margin-bottom:0px;
+	margin-top:0px;
+}
+
+tr.odd {background:#e4dcd9;}
+
+th {font:bold 12px/17px Arial; text-align:center; padding:4px; border-bottom:0px solid #333;}
+tr.highlight {background:#BDA9A2;}
+tr.selected {background:#4a1200; color:#fff;}
+
+.header_link {
+	color: #006666;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 5;
+}
+
+.header {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 40px;
+	color: #006666;
+	font-weight:bold;
+}
+.subheader {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #006666;
+	font-weight:bold;
+}
+a img{border:none;}
+p {
+    font-size: 14px;
+}
+li, td {font:normal 12px/26px Arial;}
+.separator {
+	color: #EEF5F5;
+}
+label {
+	color: #006666;
+}
+
+h2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 30px;
+	color: #006666;
+	font-weight:bold;
+}
+h3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 28px;
+	color: #006666;
+	font-weight:bold;
+}
+h4 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	color: #006666;
+	font-weight:bold;
+}
+.red {
+    color: red;
+}
+#go-to-top {
+    display: block;
+    position: fixed;
+    right: 60px;
+    bottom: 100px;
+    padding: 18px;
+    color: #666;
+    background: #ddd;
+    font: 36px/18px Helvetica,Arial,Verdana,sans-serif;
+    opacity: 0.7;
+    outline: 0 none;
+    text-decoration: none;
+    text-shadow: 0 0 1px #ddd;
+    vertical-align: baseline;    
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+} 
+.dimer_table {
+    width:100%;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:5px;
+    padding-right:5px;
+    border:1px solid bold;
+    border-collapse: collapse;
+}

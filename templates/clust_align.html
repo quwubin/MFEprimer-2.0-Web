@@ -1,0 +1,26 @@
+{% extends "primer_output.html" %}
+
+{% block body %}
+        <h2>Cluster and multiple alignment Reports:</h2>
+	<h3>&nbsp;&nbsp;{{amp_num}} amplicon(s) has been grouped into {{group_num}} groups.</h3>
+        <div>
+            <table class="list_table">
+                <thead>
+                    <tr>
+                        <th>Group ID</th>
+                        <th>MultiAlign</th>
+                        <th>Amplicon IDs</th>
+                    </tr>
+                </thead>
+                <tbody>
+		    {% for group_sn, amp_id_list, t_coffee_result in group_list: %}
+                    <tr>
+			<td class="center">{{group_sn}}</td>
+			<td class="center"><a href="{{url_for('multi_align_view', session_key=session_key, link=t_coffee_result)}}">View</a></td>
+			<td class="center">{{amp_id_list}}</td>
+                    </tr>
+		    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}

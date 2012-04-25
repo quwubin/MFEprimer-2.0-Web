@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<form name="main_form" method="post" action="{{url_for('batch_mode')}}" enctype="multipart/form-data">
+<div class="section">
+    <table>
+	<tr>
+            <td class="subheader"><a href="http://code.google.com/p/mfeprimer/wiki/FAQ#How_to_choose_the_database?">Database selection</a>:
+	    </td>
+	    <td class="align_right">
+		<input type="checkbox" name="all_db_checked" id="all_db_checked_id" onclick="check_all_db();"> Check All &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{% for db_type in g.db_type_list %}
+		    {% if session.has_key('db_type') %}
+			{% if db_type|lower == session.db_type|lower %}
+			    <input type="radio" name="db_type" value="{{db_type|lower}}" checked="checked" /> {{db_type}} | 
+			{% else %}
+			    <input type="radio" name="db_type" value="{{db_type|lower}}" /> {{db_type}} | 
+			{% endif %}
+		    {% else %}
+			<input type="radio" name="db_type" value="{{db_type|lower}}" /> {{db_type}} | 
+		    {% endif %}
+		{% endfor %}
+		{% if session.has_key('db_type') %}
+		    {% if g.db_type_list|join(':')|lower == session.db_type|lower %}
+			<input checked="checked" type="radio" name="db_type" value="{{g.db_type_list|join(':')}}" /> {{g.db_type_list|join(' & ')}} 
+		    {% else %}
+			<input type="radio" name="db_type" value="{{g.db_type_list|join(':')}}" /> {{g.db_type_list|join(' & ')}} 
+		    {% endif %}
+		{% else %}
+		    <input checked="checked" type="radio" name="db_type" value="{{g.db_type_list|join(':')}}" /> {{g.db_type_list|join(' & ')}} 
+		{% endif %}
+	    </td>
+	</tr>
+    </table>
+    <table>
+	{% for rows in g.db_list|batch(4) %}
+	<tr>
+	    {% for species, db_list in rows %}
+	    <td class="db_label_width">
+		{% if session.has_key('species_list') %}
+		    {% if species|lower in session.species_list|lower %}
+			<input checked="checked" type="checkbox" name="db_selected" value="{{species}}"> {{species|format_species_name|safe}}
+		    {% else %}
+			<input type="checkbox" name="db_selected" value="{{species}}"> {{species|format_species_name|safe}}
+		    {% endif %}
+		{% else %}
+		    {% if loop.first %}
+			<input checked="checked" type="checkbox" name="db_selected" value="{{species}}"> {{species|format_species_name|safe}}
+		    {% else %}
+			<input type="checkbox" name="db_selected" value="{{species}}"> {{species|format_species_name|safe}}
+		    {% endif %}
+		{% endif %}
+	    </td>
+	    {% endfor %}
+	</tr>
+	{% endfor %}
+    </table>
+</div>
+
+<div class="section">
+    <table style="DISPLAY:true" id="multi_seq">
+	<tr> 
+	    <td class="align_left">
+		<label class="subheader">Enter multiple primers in <a href="http://code.google.com/p/mfeprimer/wiki/FASTA_Format" target="_blank">Fasta format</a>:</label>
+	    </td>
+	    <td class="align_right">
+		<a href="javaScript:fillFastaSeq()">Example input sequences</a>
+	    </td> 
+	</tr> 
+	<tr>
+	    <td colspan="2">
+		<table>
+		    <tr> 
+			<td colspan="2">
+			    <textarea rows="12" id="fasta_seq" name="fasta_seq" style="width: 100%;"></textarea>
+			</td>
+		    </tr>
+		    <tr> 
+			<td class="align_left">
+			    <label>Or upload: </label><input id="upload_seq" name="upload_seq" type="file" onchange="upload_seq_changed();"> 
+			</td>
+			<td class="align_right">
+			    <input class="submit_button" value="Run" name="submit" id="submit" type="submit" /> 
+			    <input class="reset_button" value="Reset" name="reset" id="reset" type="reset" /> 
+			</td> 
+		    </tr>
+		</table>
+	    </td>
+	</tr>
+    </table>
+</div>
+
+{% include 'filter_para.html' %}
+{% include 'exp_para.html' %}
+
+</form>
+{% endblock %}
