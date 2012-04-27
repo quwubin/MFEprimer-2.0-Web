@@ -171,7 +171,7 @@
 	    {% endif %}
 	    <h2><a id="descriptions"></a>Descriptions of <label class="red">{{amp_num}}</label> potential amplicons</h2>
             <div>
-	    <p class="right"><a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/FAQ#What’s_the_MFEprimer-2.0_result_and_what’s_the_meaning_of_ea">What's this?</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/HowTo">How to explain the result?</a></p>
+	    <p class="right"><a target="_blank" href="https://github.com/quwubin/MFEprimer/wiki/FAQ">What's this?</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://github.com/quwubin/MFEprimer/wiki/HowTo">How to explain the result?</a></p>
                 <table class="list_table">
                     <thead>
                         <tr>
@@ -237,7 +237,7 @@
             </div>
             <h2><a id="amplicons_details">Amplicon details</a></h2>
             <div>
-	    <p class="right"><a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/FAQ#What’s_the_MFEprimer-2.0_result_and_what’s_the_meaning_of_ea">What's this?</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://code.google.com/p/mfeprimer/wiki/HowTo">How to explain the result?</a></p>
+	    <p class="right"><a target="_blank" href="https://github.com/quwubin/MFEprimer/wiki/FAQ">What's this?</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://github.com/quwubin/MFEprimer/wiki/HowTo">How to explain the result?</a></p>
 	    {% for sn, acc, p_qid, m_qid, amp_len, ppc, p_Tm, m_Tm, p_DeltaG, m_DeltaG, p_3_DeltaG, m_3_DeltaG, amp_GC, p_sb, p_match, f_len, m_se, m_match, r_len, amp_graphic, fa_seq, hid, hdesc in detail: %}
 		<p><label><input type="checkbox" value="{{fa_seq}}" name="Amplicon_detail_name_{{sn}}" id="Amplicon_detail_{{sn}}" onclick="detail2desc_AssociationCheck({{sn}});" /><a id="{{sn}}">{{sn}}</a>: {{p_qid[:12]}} + {{m_qid[:12]}} ==> {{hid}} {{hdesc}}</label></p>
                     <div class="detail">

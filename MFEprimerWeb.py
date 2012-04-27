@@ -13,6 +13,7 @@ import re
 import subprocess
 from operator import itemgetter
 import hashlib
+import platform
 from datetime import datetime
 from flask import Flask, request, session, url_for, redirect, \
 	render_template, abort, g, flash, send_from_directory
@@ -29,6 +30,9 @@ import config
 from config import DEBUG, MFEprimerDB, \
 	size_hist, tm_hist, dg_hist, hist_cutoff, \
 	session_parent, Citation
+
+src_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
+bin_path = os.path.join(src_path, 'bin', platform.architecture()[0])
 
 # configuration
 SECRET_KEY = '4d98f55b-8adb-4b54-83c8-a41cdeca00c1'
@@ -803,7 +807,7 @@ def run_t_coffee(file_name):
         return output
 
     output = file_name + '.html'
-    cmd = 'bin/muscle -in %s -html -out %s'% (file_name, output)
+    cmd = '%s%smuscle -in %s -html -out %s'% (bin_path, os.sep, file_name, output)
     try:
         subprocess.Popen(cmd, shell=True).wait()
     except:
@@ -832,11 +836,11 @@ def check_md5(md5file, md5code):
 def run_ntthal(seq1, seq2, mv=50, dv=1.5, d=50, n=0.25, align_mode='ANY'):
     '''Run oligotm'''
     if align_mode == 'HAIRPIN':
-        cmd = 'bin/ntthal -mv %s -dv %s -d %s -n %s -s1 %s -a %s -path primer3_config/' \
-                % (mv, dv, d, n, seq1, align_mode)
+        cmd = '%s%sntthal -mv %s -dv %s -d %s -n %s -s1 %s -a %s -path primer3_config/' \
+                % (bin_path, os.sep, mv, dv, d, n, seq1, align_mode)
     else:
-        cmd = 'bin/ntthal -mv %s -dv %s -d %s -n %s -s1 %s -s2 %s -a %s -path primer3_config/' \
-                % (mv, dv, d, n, seq1, seq2, align_mode)
+        cmd = '%s%sntthal -mv %s -dv %s -d %s -n %s -s1 %s -s2 %s -a %s -path primer3_config/' \
+                % (bin_path, os.sep, mv, dv, d, n, seq1, seq2, align_mode)
 
     out, align = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     try:

@@ -12,6 +12,6 @@ for dir in ${dirs[@]};do
 done
 ln -s mfeprimer/chilli .
 cd mfeprimer/test/
-../IndexDb.sh db.fasta 9
+../IndexDb.sh test.rna 9
 cd ../../MFEprimerDB/
-ln -s ../mfeprimer/test/db.fasta* .
+ln -s ../mfeprimer/test/test.rna* .
