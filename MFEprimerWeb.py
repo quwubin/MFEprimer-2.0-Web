@@ -966,5 +966,5 @@ def analysis_dimer(infile, mv, dv, oligo, dntp, align_mode):
     return dimer_list
 
 if __name__ == '__main__':
-    app.run(host="202.38.153.238", port=5000)
+    app.run()
 
