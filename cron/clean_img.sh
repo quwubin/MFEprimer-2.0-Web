@@ -2,7 +2,11 @@
 # From the following article:
 # http://www.ahowto.net/linux/bash-script-delete-files-older-than-specified-time
 
-DIR=/home/zhangcg/CZlab/mfe/show_img                        # target directory where we should do some cleanup
+real_path=$(dirname $(which ${0}))
+cd $real_path
+
+DIR='../show_img'                        # target directory where we should do some cleanup
+
 FILES="*.png"           # file extensions that will be cleaned
 let "EXPIRETIME=24*60*60"                         # expire time in seconds
 
