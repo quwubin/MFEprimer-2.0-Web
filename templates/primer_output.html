@@ -201,7 +201,11 @@
                     </thead>
                     <tbody>
 			{% for sn, acc, p_qid, m_qid, amp_len, ppc, p_Tm, m_Tm, p_DeltaG, m_DeltaG, p_3_DeltaG, m_3_DeltaG, amp_GC, p_sb, p_match, f_len, m_se, m_match, r_len, amp_graphic, fa_seq, hid, hdesc in detail: %}
+			{% if ppc|float|abs > 80 %}
+                        <tr class="highly_risk">
+		        {% else %}
                         <tr>
+		        {% endif %}
 			    <td class="center">&nbsp;<input type="checkbox" name="Amplicon_desc_name_{{sn}}" id="Amplicon_desc_{{sn}}" onclick="desc2detail_AssociationCheck({{sn}});" /></td>
 			    <td class="center"><a href="#{{sn}}">{{sn}}</a></td>
 			    <td class="left">{{acc}}</td>

@@ -234,3 +234,6 @@ h4 {
     border:1px solid bold;
     border-collapse: collapse;
 }
+.highly_risk{
+    color: red;
+}
