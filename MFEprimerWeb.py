@@ -448,8 +448,7 @@ def format_output_primer(amp_list, oligos, options, start_time, session_dir):
     dg_dict = {}
     tm_dict = {}
     sn = 0
-    #amp_list.append([amp_len, ave_Tm, p, m, ppc, amp_graphic, mid_seq, real_hid, hdesc])
-    amp_list.sort(key=itemgetter(0, 2), reverse=True)
+    amp_list.sort(key=itemgetter(1, 2), reverse=True)
     for ave_Tm, ppc, amp_len, amp in amp_list:
         sn = sn + 1
         hid = amp['real_hid']
