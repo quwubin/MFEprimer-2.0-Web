@@ -1,6 +1,7 @@
 MFEprimerWeb
 ============
 
-MFEprimer Web Server Source Code
+MFEprimer web server source code
 
-[Continue reading...](http://quwubin.github.com/MFEprimer/)
+[Continue reading...](https://github.com/quwubin/MFEprimer/wiki/Manual)
+
