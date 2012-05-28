@@ -91,7 +91,7 @@ def before_request():
 
 		species = '.'.join(fields[:-3]).capitalize()
 		name = '.'.join(fields[:-2])
-                g.db_name_dict[name] = True
+                g.db_name_dict[name.lower()] = name
 		if species not in g.db_dict:
 		    g.db_dict[species] = []
 
@@ -128,7 +128,7 @@ def batch():
 
 @app.route('/batch_mode', methods=['GET', 'POST'])
 def batch_mode():
-    """Single mode"""
+    """batch mode"""
     error = None
     session_dir = chilli.session(session_parent)
     if request.method == 'POST':
@@ -146,9 +146,10 @@ def batch_mode():
         for species in species_list:
             for db_type in db_type_list:
                 db = '%s.%s' % (species, db_type)
+		db = db.lower()
                 if db in g.db_name_dict:
-                    full_db = os.path.join(MFEprimerDB, db)
-                    db_list.append(full_db)
+                    full_db = os.path.join(MFEprimerDB, g.db_name_dict[db])
+		    db_list.append(full_db)
 
         db_list.sort()
 
@@ -367,7 +368,7 @@ def single_mode():
 	for key, value in dg_hist.items():
 	    new_dg_hist[str(key)] = value
 
-        database = ', '.join([os.path.basename(db) for db in options.database])
+        database = ', '.join([os.path.basename(db).capitalize() for db in options.database])
         oligos = format_oligos(oligos, options)
         elapsed_time = time.time() - start_time
 	if elapsed_time < 1:
