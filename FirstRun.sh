@@ -1,4 +1,5 @@
 #!/bin/bash
+git clone https://github.com/quwubin/MFEprimer.git mfeprimer
 dirs=('session' 'batch_jobs' 'batch_jobs_done' 'MFEprimerDB' 'show_img')
 for dir in ${dirs[@]};do
     if [ -d $dir ]; then
