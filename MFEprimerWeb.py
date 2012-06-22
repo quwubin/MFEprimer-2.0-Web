@@ -74,6 +74,7 @@ def before_request():
     session.permanent = True
     mtime = os.path.getmtime(sys.argv[0])
     g.date = time.strftime('%b %d, %Y', time.localtime(mtime))
+    g.year = datetime.now().year
     g.db_dict = {}
     g.db_name_dict = {}
     type_dict = {}
