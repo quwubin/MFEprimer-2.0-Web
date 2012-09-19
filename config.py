@@ -51,4 +51,7 @@ MFEprimerDB = 'MFEprimerDB'
 MFEprimerDB_k_value = 9 # Should be identical to the k value when indexing the database
 
 # The Citation (You may cite this paper if MFEprimer helps you)
-Citation = 'Wubin Qu, Zhiyong Shen, Dongsheng Zhao, Yi Yang and Chenggang Zhang. (2009) MFEprimer: multiple factor evaluation of the specificity of PCR primers. Bioinformatics, 25(2), 276-278.'
+Citation = [
+    'Wubin Qu, Yang Zhou, Yanchun Zhang, Yiming Lu, Xiaolei Wang, Dongsheng Zhao, Yi Yang and Chenggang Zhag. (2012) MFEprimer-2.0: A fast thermodynamics-based program for checking PCR primer specificity. Nucleic Acids Res. (Web Server Issue): W205-8. DOI: 10.1093/nar/gks552.',
+    'Wubin Qu, Zhiyong Shen, Dongsheng Zhao, Yi Yang and Chenggang Zhang. (2009) MFEprimer: multiple factor evaluation of the specificity of PCR primers. Bioinformatics, 25(2), 276-278. ',
+    ]

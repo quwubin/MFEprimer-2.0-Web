@@ -293,9 +293,12 @@
                 </table>
             </div>
             <h2><a id="citation">Citation</a></h2>
-            <div>
-		<label>{{citation}}</label>
-            </div>
+	    {% for each_citation in citation: %}
+	    <div>
+	      <label>{{each_citation}}</label>
+	    </div>
+	      <br>
+	    {% endfor %}
 	    <input type="hidden" name="amp_num" id="hidden_amp_num" value={{amp_num}}:{{session_dir}} />
 
         </form>
