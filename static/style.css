@@ -232,6 +232,11 @@ td {
     font-size:12px;
 }
 
+.highlight {
+    font-size:12px;
+    color: red;
+}
+
 .red{
     color: red;
 }
