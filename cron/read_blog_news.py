@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/home/zhangcg/local/python/bin/python
 
 # quwubin@gmail.com
 # 2014-5-7
