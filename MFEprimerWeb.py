@@ -9,6 +9,7 @@
 import time
 import os
 import sys
+import json
 import re
 import subprocess
 from operator import itemgetter
@@ -31,6 +32,8 @@ from config import DEBUG, MFEprimerDB, \
 	size_hist, tm_hist, dg_hist, hist_cutoff, \
 	session_parent, Citation
 
+from cron import get_blog_news
+
 src_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 bin_path = os.path.join(src_path, 'bin', platform.architecture()[0])
 
@@ -49,6 +52,15 @@ def format_species_name(species):
     else:
 	return species.capitalize()
 
+def get_news():
+    news_file = os.path.join(src_path, 'cron', get_blog_news.NEWS_FILE)
+    if os.path.exists(news_file):
+	news = json.load(open(news_file))
+    else:
+	news = []
+
+    return news
+
 def capitalize_species_name(species):
     fields = species.split('_')
     if len(fields) > 1:
@@ -63,6 +75,12 @@ def format_datetime(timestamp):
     """Format a timestamp for display."""
     return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
 
+def split_date_string(timestamp):
+    """Format a timestamp for display."""
+    return timestamp.split()[0]
+
+app.jinja_env.filters['split_date_string'] = split_date_string
+
 def get_current_date():
     """Format the current date for display."""
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -72,6 +90,7 @@ def before_request():
     """
     """
     session.permanent = True
+    g.news = get_news()
     mtime = os.path.getmtime(sys.argv[0])
     g.date = time.strftime('%b %d, %Y', time.localtime(mtime))
     g.year = datetime.now().year
