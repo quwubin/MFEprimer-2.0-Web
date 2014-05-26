@@ -78,7 +78,7 @@ if $0 == __FILE__
       p cmd
       `#{cmd}`
       `zip #{opts.out}.zip #{opts.out}`
-      File.delete(job)
+      File.delete(File.join(session_dir, job))
     rescue
       clean_status(session_dir)
     end
