@@ -50,28 +50,31 @@ if $0 == __FILE__
     end
   end
 
-  Dir.chdir(session_dir)
-
   exit if sys_busy?
   exit if already_running?(session_dir)
 
-  Dir.foreach('./').sort_by { |x| File.stat(x).mtime }.reverse.each do |job|
+  Dir.foreach(session_dir).sort_by { |x| File.stat(File.join(session_dir, x)).mtime }.reverse.each do |job|
     exit if sys_busy?
     exit if already_running?(session_dir)
 
     next unless job.start_with?('MFEprimer-2.0')
+    next unless job.end_with?('.txt')
 
-    write_status(session_dir, File.read(job))
+    write_status(session_dir, File.read(File.join(session_dir, job)))
     opts = OpenStruct.new
-    File.read(job).each_line do |line|
+    File.read(File.join(session_dir, job)).each_line do |line|
       opt, value = line.strip.split(': ')
-      opts[opt] = value
+      if opt == 'database'
+        opts[opt] = value.split.map {|db| "#{File.join(__dir__, db)}"}.join(' ')
+      else
+        opts[opt] = value
+      end
     end
 
-    opts.out = File.join(__dir__, 'session', job)
+    opts.out = File.join(__dir__, 'session', opts['session_key'], job)
     begin
       mfeprimer = File.join(__dir__, 'mfeprimer/MFEprimer.py')
-      cmd = "#{mfeprimer} -i #{File.join(__dir__, opts.infile)} -o #{opts.out} -d #{File.join(__dir__, opts.database)} -k #{opts.k_value} --mono_conc=#{opts.mono_conc} --diva_conc=#{opts.diva_conc} --oligo_conc=#{opts.oligo_conc} --dntp_conc=#{opts.dntp_conc} --ppc=#{opts.ppc} --size_start=#{opts.size_start} --size_stop=#{opts.size_stop} --tm_start=#{opts.tm_start} --tm_stop=#{opts.tm_stop} --dg_start=#{opts.dg_start} --dg_stop=#{opts.dg_stop}"
+      cmd = "#{mfeprimer} -i #{File.join(__dir__, opts.infile)} -o #{opts.out} -d #{opts.database} -k #{opts.k_value} --mono_conc=#{opts.mono_conc} --diva_conc=#{opts.diva_conc} --oligo_conc=#{opts.oligo_conc} --dntp_conc=#{opts.dntp_conc} --ppc=#{opts.ppc} --size_start=#{opts.size_start} --size_stop=#{opts.size_stop} --tm_start=#{opts.tm_start} --tm_stop=#{opts.tm_stop} --dg_start=#{opts.dg_start} --dg_stop=#{opts.dg_stop}"
       p cmd
       `#{cmd}`
       `zip #{opts.out}.zip #{opts.out}`
