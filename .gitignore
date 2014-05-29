@@ -8,3 +8,4 @@ mfeprimer/test
 mfeprimer
 cron/*.json
 *.swp
+*.log
