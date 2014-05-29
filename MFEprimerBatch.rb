@@ -81,6 +81,9 @@ if $0 == __FILE__
       #
       File.delete(File.join(session_dir, job))
     rescue
+      # do nothing
+      p "error in #{job}"
+    ensure
       clean_status(session_dir)
     end
  end
