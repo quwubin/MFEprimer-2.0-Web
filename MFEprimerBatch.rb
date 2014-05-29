@@ -77,7 +77,7 @@ if $0 == __FILE__
       cmd = "#{mfeprimer} -i #{File.join(__dir__, opts.infile)} -o #{opts.out} -d #{opts.database} -k #{opts.k_value} --mono_conc=#{opts.mono_conc} --diva_conc=#{opts.diva_conc} --oligo_conc=#{opts.oligo_conc} --dntp_conc=#{opts.dntp_conc} --ppc=#{opts.ppc} --size_start=#{opts.size_start} --size_stop=#{opts.size_stop} --tm_start=#{opts.tm_start} --tm_stop=#{opts.tm_stop} --dg_start=#{opts.dg_start} --dg_stop=#{opts.dg_stop}"
       p cmd
       `#{cmd}`
-      `zip #{opts.out}.zip #{opts.out}`
+      `zip -j #{opts.out}.zip #{opts.out}`
       #
       File.delete(File.join(session_dir, job))
     rescue
