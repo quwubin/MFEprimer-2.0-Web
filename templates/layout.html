@@ -67,10 +67,11 @@
         <a href="http://www.mfeprimer.com" target="_blank">www.mfeprimer.com</a>
 		     </p>   
 		     <p class="sidemenu">		
+         <img src="{{ url_for('static', filename='new.jpg') }}" height="30" width="30" alt="new">
          <a href="http://quwubin.cn/download/QuWB_2015_MFEprimer_Protocol.pdf" target="_blank">Protocol (PDF)</a>
 		     </p>   
 		     <p class="sidemenu">		
-      <a href="https://jinshuju.net/f/yYathF" target="_blank">Database requires</a>
+         <a href="https://jinshuju.net/f/yYathF" target="_blank">Database requires</a>
 		     </p>   
 		     <p class="sidemenu">		
 		         <a href="https://github.com/quwubin/MFEprimer/zipball/master">Download</a> /
@@ -85,15 +86,6 @@
 		     <p class="sidemenu">		
 		         <a href="https://github.com/quwubin/MFEprimer/wiki/iThank" target="_blank">Thanks</a>
 		     </p>   
-
-		     {% if g.news|length > 0 %}
-		     <h2>News</h2>
-		     <ul class="sidemenu">		
-			 {% for news in g.news %}
-			 <li><label class="description">[{{news['date']|split_date_string}}] <a href="{{news['post_url']}}">{{news['title']}}</label></a></li>
-			 {% endfor %}
-		    </ul>
-		    {% endif %}
 
 		     <h2>You may interest</h2>
 		     <ul class="sidemenu">		
